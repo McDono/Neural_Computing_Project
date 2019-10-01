@@ -11,10 +11,21 @@ W = np.array([0.0, 0.0])
 b = 0.0
 
 NOMBRE_EPOCH = 4
+PROBLEM_A = False
+PROBLEM_B = True
 
 #--- DEBUG
 
 #--- MAIN
-for epoch in range(1, NOMBRE_EPOCH+1):
-	print("EPOCH : #" + str(epoch))
-	(W, b) = fn.run_epoch(inputON, inputOFF, W, b, "hardlim")
+
+if PROBLEM_A:
+	print("Problem A")
+	for epoch in range(1, NOMBRE_EPOCH+1):
+		print("EPOCH : #" + str(epoch))
+		(W, b) = fn.run_epoch(inputON, inputOFF, W, b, "hardlims")
+
+if PROBLEM_B:
+	print("Problem B")
+	for epoch in range(1, NOMBRE_EPOCH+1):
+		print("EPOCH : #" + str(epoch))
+		(W, b) = fn.run_epoch(inputON, inputOFF, W, b, "tanh")
