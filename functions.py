@@ -20,16 +20,15 @@ def run_perceptron(inputTab, inputNumber, target, W, b, transferFunction):
 	print("b = " + str(b))
 	return (W, b)
 
-def run_epoch(nbrEpoch, inputON, inputOFF, W, b, transferFunction):
-	for epoch in range(1, nbrEpoch+1):
-		print("EPOCH : #" + str(epoch))
-		print("////////OFF TERMS /////////")
-		for offTerm in range(0, len(inputOFF[0])):
-			offTarget = find_off_target(transferFunction)
-			(W, b) = run_perceptron(inputOFF, offTerm, offTarget, W, b, transferFunction)
-		print("////////ON TERMS /////////")
-		for onTerm in range(0, len(inputON[0])):
-			(W, b) = run_perceptron(inputON, onTerm, 1, W, b, transferFunction)
+def run_epoch(inputON, inputOFF, W, b, transferFunction):
+	print("////////OFF TERMS /////////")
+	for offTerm in range(0, len(inputOFF[0])):
+		offTarget = find_off_target(transferFunction)
+		(W, b) = run_perceptron(inputOFF, offTerm, offTarget, W, b, transferFunction)
+	print("////////ON TERMS /////////")
+	for onTerm in range(0, len(inputON[0])):
+		(W, b) = run_perceptron(inputON, onTerm, 1, W, b, transferFunction)
+	return (W, b)
 
 def apply_transfer_function(transferFunction, n):
 	if transferFunction == "hardlim":

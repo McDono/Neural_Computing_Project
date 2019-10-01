@@ -15,5 +15,6 @@ NOMBRE_EPOCH = 4
 #--- DEBUG
 
 #--- MAIN
-
-fn.run_epoch(NOMBRE_EPOCH, inputON, inputOFF, W, b, "hardlim")
+for epoch in range(1, NOMBRE_EPOCH+1):
+	print("EPOCH : #" + str(epoch))
+	(W, b) = fn.run_epoch(inputON, inputOFF, W, b, "hardlim")
