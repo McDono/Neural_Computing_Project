@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import sys
 
 def run_neuron(input, target, W, b, transferFunction):
 	n = np.dot(W, input) + b
@@ -16,8 +17,8 @@ def run_perceptron(inputTab, inputNumber, target, W, b, transferFunction):
 	W = W + error*inputVector.T*normalization
 	b = b + error*normalization
 	print("input #" + str(inputNumber))
-	print("W = " + str(W))
-	print("b = " + str(b))
+	# print("W = " + str(W))
+	# print("b = " + str(b))
 	return (W, b)
 
 def run_epoch(inputON, inputOFF, W, b, transferFunction):
