@@ -12,13 +12,24 @@ def run_perceptron(inputTab, inputNumber, target, W, b, transferFunction):
 	print("inputVector : " + str(inputVector))
 	error = run_neuron(inputVector, target, W, b, transferFunction)
 	print("error = " + str(error))
-	normalization = findNormalization(transferFunction)
+	normalization = find_normalization(transferFunction)
 	W = W + error*inputVector.T*normalization
 	b = b + error*normalization
 	print("input #" + str(inputNumber))
 	print("W = " + str(W))
 	print("b = " + str(b))
 	return (W, b)
+
+def run_epoch(nbrEpoch, inputON, inputOFF, W, b, transferFunction):
+	for epoch in range(1, nbrEpoch+1):
+		print("EPOCH : #" + str(epoch))
+		print("////////OFF TERMS /////////")
+		for offTerm in range(0, len(inputOFF[0])):
+			offTarget = find_off_target(transferFunction)
+			(W, b) = run_perceptron(inputOFF, offTerm, offTarget, W, b, transferFunction)
+		print("////////ON TERMS /////////")
+		for onTerm in range(0, len(inputON[0])):
+			(W, b) = run_perceptron(inputON, onTerm, 1, W, b, transferFunction)
 
 def apply_transfer_function(transferFunction, n):
 	if transferFunction == "hardlim":
@@ -33,7 +44,7 @@ def apply_transfer_function(transferFunction, n):
 		print("Transfer function unknown")
 		sys.exit()
 
-def findNormalization(transferFunction):
+def find_normalization(transferFunction):
 	if transferFunction == "hardlim":
 		return 1
 	elif transferFunction == "hardlims" or transferFunction == "sign":
@@ -42,6 +53,19 @@ def findNormalization(transferFunction):
 		return 1
 	elif transferFunction == "tanh":
 		return 0.5
+	else:
+		print("Transfer function unknown")
+		sys.exit()
+
+def find_off_target(transferFunction):
+	if transferFunction == "hardlim":
+		return 0
+	elif transferFunction == "hardlims" or transferFunction == "sign":
+		return -1
+	elif transferFunction == "sigmoid":
+		return 0
+	elif transferFunction == "tanh":
+		return -1
 	else:
 		print("Transfer function unknown")
 		sys.exit()
