@@ -31,6 +31,26 @@ def run_epoch(inputON, inputOFF, W, b, transferFunction):
 		(W, b) = run_perceptron(inputON, onTerm, 1, W, b, transferFunction)
 	return (W, b)
 
+def train_neural_network(W, b, inputON, inputOFF, nbrEpoch, transferFunction):
+	for epoch in range(1, nbrEpoch+1):
+		print("EPOCH : #" + str(epoch))
+		(W_old, b_old) = (W, b)
+		(W, b) = run_epoch(inputON, inputOFF, W, b, transferFunction)
+		print("END EPOCH #" + str(epoch))
+		print("W_old = " + str(W_old))
+		print("b_old = " + str(b_old))
+		print("W = " + str(W))
+		print("b = " + str(b))
+		sameWeight = np.array_equiv(W, W_old)
+		sameBias = np.array_equiv(b, b_old)
+		# print("Weights equal : " + str(sameWeight))
+		# print("Bias equal : " + str(sameBias))
+		if (sameWeight and sameBias):
+			print("END OF THE PROGRAM : Converged in " + str(epoch) + " epochs.")
+			return (W,b)
+	print("END OF THE PROGRAM : Did not converged in " + str(nbrEpoch) + " epochs.")
+	return (W,b)
+
 def apply_transfer_function(transferFunction, n):
 	if transferFunction == "hardlim":
 		return hardlim(n)
