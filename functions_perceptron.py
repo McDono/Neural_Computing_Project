@@ -10,37 +10,40 @@ def run_neuron(input, target, W, b, transferFunction):
 
 def run_perceptron(inputTab, inputNumber, target, W, b, transferFunction, precision):
 	inputVector = np.array([inputTab[0][inputNumber], inputTab[1][inputNumber]])
-	print("inputVector : " + str(inputVector))
+	# print("inputVector : " + str(inputVector))
 	error = run_neuron(inputVector, target, W, b, transferFunction)
-	print("error = " + str(error))
+	# print("error = " + str(error))
 	normalization = find_normalization(transferFunction)
 	W = np.around(W + error*inputVector.T*normalization, precision)
 	b = np.around(b + error*normalization, precision)
-	print("input #" + str(inputNumber))
+	# print("input #" + str(inputNumber))
 	# print("W = " + str(W))
 	# print("b = " + str(b))
 	return (W, b)
 
 def run_epoch(inputON, inputOFF, W, b, transferFunction, precision):
-	print("////////OFF TERMS /////////")
+	# print("////////OFF TERMS /////////")
 	for offTerm in range(0, len(inputOFF[0])):
 		offTarget = find_off_target(transferFunction)
 		(W, b) = run_perceptron(inputOFF, offTerm, offTarget, W, b, transferFunction, precision)
-	print("////////ON TERMS /////////")
+	# print("////////ON TERMS /////////")
 	for onTerm in range(0, len(inputON[0])):
 		(W, b) = run_perceptron(inputON, onTerm, 1, W, b, transferFunction, precision)
 	return (W, b)
 
-def train_neural_network(W, b, inputON, inputOFF, nbrEpoch, transferFunction, precision):
+
+def train_nn_perceptron(inputON, inputOFF, nbrEpoch, transferFunction, precision):
+	W = np.zeros(len(inputON))
+	b = 0.0
 	for epoch in range(1, nbrEpoch+1):
-		print("EPOCH : #" + str(epoch))
+		# print("EPOCH : #" + str(epoch))
 		(W_old, b_old) = (W, b)
 		(W, b) = run_epoch(inputON, inputOFF, W, b, transferFunction, precision)
-		print("END EPOCH #" + str(epoch))
-		print("W_old = " + str(W_old))
-		print("b_old = " + str(b_old))
-		print("W = " + str(W))
-		print("b = " + str(b))
+		# print("END EPOCH #" + str(epoch))
+		# print("W_old = " + str(W_old))
+		# print("b_old = " + str(b_old))
+		# print("W = " + str(W))
+		# print("b = " + str(b))
 		sameWeight = np.array_equiv(W, W_old)
 		sameBias = np.array_equiv(b, b_old)
 		# print("Weights equal : " + str(sameWeight))
