@@ -14,8 +14,7 @@ NUMBER_EPOCH = 10
 PROBLEM_A = False
 PROBLEM_B = True
 
-
-#--- DEBUG
+#--- DEBUG 
 
 #--- MAIN
 
