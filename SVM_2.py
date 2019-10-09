@@ -1,19 +1,28 @@
 import numpy as np
-import quadprog
+# import quadprog
 from quadprog import solve_qp
 
 def quadprog_solve_qp(P, q, G=None, h=None, A=None, b=None):
-    qp_G = .5 * (P + P.T)   # make sure P is symmetric
-    qp_a = -q
-    if A is not None:
-        qp_C = -np.vstack([A, G]).T
-        qp_b = -np.hstack([b, h])
-        meq = A.shape[0]
-    else:  # no equality constraint
-        qp_C = -G.T
-        qp_b = -h
-        meq = 0
-    return solve_qp(qp_G, qp_a, qp_C, qp_b, meq)[0]
+	print("# DEBUG: begining quadprog")
+	print(P)
+	qp_G = P
+	qp_a = -q
+	if A is not None:
+		if A.ndim == 1:
+			A = A.reshape((1, A.shape[0]))
+		if G is None:
+			qp_C = -A.T
+			qp_b = -b
+		else:
+			qp_C = -np.vstack([A, G]).T
+			qp_b = -np.hstack([b, h])
+		meq = A.shape[0]
+	else:  # no equality constraint
+		qp_C = -G.T if G is not None else None
+		qp_b = -h if h is not None else None
+		meq = 0
+	solution = solve_qp(qp_G, qp_a, qp_C, qp_b, meq)[0]
+	return solution
 
 input_mat = np.array([
 	[1, 1],
@@ -29,18 +38,20 @@ input_mat = np.array([
 ])
 labels = np.array([ -1, -1, -1, -1, -1, 1, 1, 1, 1, 1])
 labels_mat = np.diag(labels)
-ones = np.ones((len(input_mat), 1))
-input_augmented_mat = np.concatenate((input_mat, ones), axis=1)
-H = np.identity(len(input_mat[0]))
-f = np.zeros(len(input_mat[0]) + 1)
+ones_mat = np.ones((len(input_mat), 1))
+input_augmented_mat = np.concatenate((input_mat, ones_mat), axis=1)
+H = np.identity(len(input_mat[0]) + 1)
+f = np.zeros(len(input_mat[0])+1)
+# f = np.zeros((len(input_mat[0])+1, 1))
 A = - np.dot(labels_mat, input_augmented_mat)
-C = - ones
+# c = - ones_mat
+c = - np.ones(10)
 print("Y = ")
 print(labels_mat)
 print("X = ")
 print(input_mat)
 print("ONES = ")
-print(ones)
+print(ones_mat)
 print("X1 = ")
 print(input_augmented_mat)
 print("H = ")
@@ -50,7 +61,8 @@ print(f)
 print("A = ")
 print(A)
 print("C = ")
-print(C)
+print(c)
 
-W = quadprog_solve_qp(H, f, A, C)
+W = quadprog_solve_qp(H, f, A, c)
+print("W = ")
 print(W)

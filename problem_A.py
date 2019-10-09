@@ -10,11 +10,11 @@ inputON = np.array([[4.0, 4.0, 5.0, 5.0, 4.5],
 
 
 
-NUMBER_EPOCH = 2000
-PROBLEM_A = False
-PROBLEM_B = True
+NUMBER_EPOCH = 20
+PROBLEM_A = True
+PROBLEM_B = False
 
-#--- DEBUG 
+#--- DEBUG
 
 #--- MAIN
 
@@ -27,7 +27,7 @@ if PROBLEM_B:
 	print("Problem B")
 	W = np.array([0.0, 0.0])
 	b = 0.0
-	(W, b) = fn.train_neural_network(W, b, inputON, inputOFF, NUMBER_EPOCH, "tanh", 3)
+	(W, b) = fn.train_neural_network(W, b, inputON, inputOFF, NUMBER_EPOCH, "tanh", 1)
 	#precision 1 : 6 epochs
 	#precision 2 : 26 epochs
 	#precision 3 : 1453 epochs
