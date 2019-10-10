@@ -4,22 +4,19 @@ class Dataset(object):
 	def __init__(self, inputs, labels):
 		self.input = inputs
 		self.label = labels
-		# self.inputOFF = np.array([	[], []	])
-		self.inputOFF = np.array([ 	[],	[]	])
-		self.inputON = np.array([ 	[],	[]	])
-		# self.inputOFF[0] = np.append(self.inputOFF[0], [1], 0)
-		self.inputOFF[1] = 1
-		print(inputs[0][0])
-		print(self.inputOFF[0])
-		np.append(self.inputOFF[0], 1)
+		self.inputOFF = inputs
+		self.inputON = inputs
+		indexON = 0
+		indexOFF = 0
 		for i in range(inputs.shape[0]):
 			if labels[i] == -1 or labels[i] == 0:
-				np.append(self.inputOFF[0], inputs[i][0])
-				np.append(self.inputOFF[1], inputs[i][1])
+				self.inputON = np.delete(self.inputON, i - indexON, 0)
+				indexON += 1
 			elif labels[i] == 1:
-				np.append(self.inputON[0], inputs[i][0])
-				np.append(self.inputON[1], inputs[i][1])
-
+				self.inputOFF = np.delete(self.inputOFF, i- indexOFF, 0)
+				indexOFF += 1
+		self.inputOFF = self.inputOFF.T
+		self.inputON = self.inputON.T
 	def print_input(self):
 		print(self.input)
 	def print_label(self):
