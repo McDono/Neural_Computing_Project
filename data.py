@@ -26,6 +26,7 @@ class Dataset(object):
 	def print_inputOFF(self):
 		print(self.inputOFF)
 
+#--------- The list of all the datasets begins here -------------
 
 input = np.array([	[1, 1], [2, 1], [1, 2], [2, 2], [1.5, 1.5],
 					[4, 4],	[5, 4],	[4, 5],	[5, 5],	[4.5, 4.5]	])
