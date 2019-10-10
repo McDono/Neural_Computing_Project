@@ -3,6 +3,9 @@ import numpy as np
 import functions_perceptron as per
 import functions_svm as svm
 import data
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report 
 
 NBR_EPOCH_MAX = 100
 PERCEPTRON = True

@@ -1,6 +1,9 @@
 
 import sys
 import numpy as np
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report 
 import functions_perceptron as per
 import functions_svm as svm
 import data
