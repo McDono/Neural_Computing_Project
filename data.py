@@ -31,8 +31,12 @@ input = np.array([	[1, 1], [2, 1], [1, 2], [2, 2], [1.5, 1.5],
 					[4, 4],	[5, 4],	[4, 5],	[5, 5],	[4.5, 4.5]	])
 output = np.array([ -1, -1, -1, -1, -1, 1, 1, 1, 1, 1])
 data1 = Dataset(input, output)
+# data1.print_input()
+# data1.print_label()
+# data1.print_inputON()
+# data1.print_inputOFF()
 
-data1.print_input()
-data1.print_label()
-data1.print_inputON()
-data1.print_inputOFF()
+input = np.array([	[0.1033, 1.5372], 	[3.6839, 3.7709], 	[2.8032, 1.1594], 	[0.7604, 1.7427], 	[3.4694, 1.2937],
+					[1.6739, 3.4550],	[0.9277, 3.5683],	[0.6247, 0.0667],	[2.9540, 0.2247],	[0.2690, 0.5830]	])
+output = np.array([ -1, 1, 1, -1, 1, -1, -1, -1, 1, -1])
+data2 = Dataset(input, output)

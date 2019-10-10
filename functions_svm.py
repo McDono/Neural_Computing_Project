@@ -36,6 +36,7 @@ def train_nn_svm(input_mat, labels, NBR_EPOCH_MAX):
 	# c = - ones_mat
 	c = - np.ones(10)
 	W = quadprog_solve_qp(H, f, A, c)
+	W = np.around(W, 4)
 	if DEBUG:
 		print("Y = ")
 		print(labels_mat)
