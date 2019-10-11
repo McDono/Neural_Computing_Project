@@ -1,7 +1,9 @@
 import numpy as np
+from random import randrange, uniform
+import math
 
 class Dataset(object):
-	def __init__(self, inputs, labels):
+	def __init__(self, inputs = None, labels = None):
 		self.input = inputs
 		self.label = labels
 		self.inputOFF = inputs
@@ -25,6 +27,25 @@ class Dataset(object):
 		print(self.inputON)
 	def print_inputOFF(self):
 		print(self.inputOFF)
+	def generateCircleInput(self, nbrInput, rangeInput, radiusOnCircle):
+		newInput = round(uniform(-rangeInput, rangeInput), 4)
+		self.input = np.array([[0,0]])
+		self.output = np.array([[0]])
+		for i in range(nbrInput):
+			newInputX = round(uniform(-rangeInput, rangeInput), 4)
+			newInputY = round(uniform(-rangeInput, rangeInput), 4)
+			norm = math.sqrt(newInputX**2 + newInputY**2)
+			if (norm <= radiusOnCircle):
+				newLabel = 1
+			else:
+				newLabel = -1
+			newInput = np.array([newInputX, newInputY])
+			# print(newInput)
+			self.input = np.append(self.input, [newInput], 0)
+			self.output = np.append(self.output, newLabel)
+		self.input = np.delete(self.input, 0, 0)
+		self.output = np.delete(self.output, 0, 0)
+
 
 #--------- The list of all the datasets begins here -------------
 
@@ -41,3 +62,5 @@ input = np.array([	[0.1033, 1.5372], 	[3.6839, 3.7709], 	[2.8032, 1.1594], 	[0.7
 					[1.6739, 3.4550],	[0.9277, 3.5683],	[0.6247, 0.0667],	[2.9540, 0.2247],	[0.2690, 0.5830]	])
 output = np.array([ -1, 1, 1, -1, 1, -1, -1, -1, 1, -1])
 data2 = Dataset(input, output)
+
+data3 = Dataset(input, output)
