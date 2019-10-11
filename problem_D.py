@@ -8,12 +8,13 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report
 
 NBR_EPOCH_MAX = 100
-PERCEPTRON = True
-SVM = True
+PERCEPTRON = False
+SVM = False
 dataset = data.data3
-dataset.generateCircleInput(10, 4, 2)
+dataset.generate_circle_input(10, 4, 2)
 dataset.print_input()
 dataset.print_label()
+dataset.print_excel("data.xls", "test3", dataset.output)
 
 #--- MAIN
 print("Problem D")

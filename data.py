@@ -1,6 +1,8 @@
 import numpy as np
 from random import randrange, uniform
 import math
+import xlwt
+from xlwt import Workbook
 
 class Dataset(object):
 	def __init__(self, inputs = None, labels = None):
@@ -27,7 +29,7 @@ class Dataset(object):
 		print(self.inputON)
 	def print_inputOFF(self):
 		print(self.inputOFF)
-	def generateCircleInput(self, nbrInput, rangeInput, radiusOnCircle):
+	def generate_circle_input(self, nbrInput, rangeInput, radiusOnCircle):
 		newInput = round(uniform(-rangeInput, rangeInput), 4)
 		self.input = np.array([[0,0]])
 		self.output = np.array([[0]])
@@ -45,6 +47,26 @@ class Dataset(object):
 			self.output = np.append(self.output, newLabel)
 		self.input = np.delete(self.input, 0, 0)
 		self.output = np.delete(self.output, 0, 0)
+		# indexON = 0
+		# indexOFF = 0
+		# for i in range(self.input.shape[0]):
+		# 	if self.output[i] == -1 or self.output[i] == 0:
+		# 		self.inputON = np.delete(self.inputON, i - indexON, 0)
+		# 		indexON += 1
+		# 	elif self.output[i] == 1:
+		# 		self.inputOFF = np.delete(self.inputOFF, i- indexOFF, 0)
+		# 		indexOFF += 1
+		# self.inputOFF = self.inputOFF.T
+		# self.inputON = self.inputON.T
+	def print_excel(self, workbook, sheet, data):
+		wb = Workbook()
+		sheet1 = wb.add_sheet(sheet)
+		for i in range(data.shape[0]):
+			d = np.array2string(data[i])
+			print(d)
+			sheet1.write(i, 0, d)
+		wb.save(workbook)
+
 
 
 #--------- The list of all the datasets begins here -------------
