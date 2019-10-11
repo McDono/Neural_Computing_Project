@@ -1,6 +1,9 @@
 import numpy as np
 import math
 import sys
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report 
 
 def run_neuron(input, target, W, b, transferFunction):
 	n = np.dot(W, input) + b
