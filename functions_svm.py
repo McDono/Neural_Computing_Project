@@ -1,7 +1,31 @@
 import numpy as np
 from quadprog import solve_qp
+import pandas as pd
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
+from sklearn.svm import SVC
+from sklearn.model_selection import GridSearchCV
 
-DEBUG = False
+DEBUG = True
+
+def plot_svc(svc, X, y, h=0.02, pad=0.25):
+	x_min, x_max = X[:, 0].min()-pad, X[:, 0].max()+pad
+	y_min, y_max = X[:, 1].min()-pad, X[:, 1].max()+pad
+	xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
+	Z = svc.predict(np.c_[xx.ravel(), yy.ravel()])
+	Z = Z.reshape(xx.shape)
+	plt.contourf(xx, yy, Z, cmap=plt.cm.Paired, alpha=0.2)
+	plt.scatter(X[:,0], X[:,1], s=70, c=y, cmap=mpl.cm.Paired)
+	# Support vectors indicated in plot by vertical lines
+	sv = svc.support_vectors_
+	plt.scatter(sv[:,0], sv[:,1], c='k', marker='x', s=100, linewidths='1')
+	plt.xlim(x_min, x_max)
+	plt.ylim(y_min, y_max)
+	plt.xlabel('X1')
+	plt.ylabel('X2')
+	plt.show()
+	print('Number of support vectors: ', svc.support_.size)
 
 def quadprog_solve_qp(P, q, G=None, h=None, A=None, b=None):
 	qp_G = P
@@ -33,8 +57,7 @@ def train_nn_svm(input_mat, labels):
 	f = np.zeros(len(input_mat[0])+1)
 	# f = np.zeros((len(input_mat[0])+1, 1))
 	A = - np.dot(labels_mat, input_augmented_mat)
-	# c = - ones_mat
-	c = - np.ones(10)
+	c = - np.ones(len(input_mat))
 	W = quadprog_solve_qp(H, f, A, c)
 	W = np.around(W, 4)
 	if DEBUG:
