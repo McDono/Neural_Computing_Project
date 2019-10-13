@@ -32,7 +32,7 @@ class Dataset(object):
 	def generate_circle_input(self, nbrInput, rangeInput, radiusOnCircle):
 		newInput = round(uniform(-rangeInput, rangeInput), 4)
 		self.input = np.array([[0,0]])
-		self.output = np.array([[0]])
+		self.label = np.array([[0]])
 		for i in range(nbrInput):
 			newInputX = round(uniform(-rangeInput, rangeInput), 4)
 			newInputY = round(uniform(-rangeInput, rangeInput), 4)
@@ -44,28 +44,22 @@ class Dataset(object):
 			newInput = np.array([newInputX, newInputY])
 			# print(newInput)
 			self.input = np.append(self.input, [newInput], 0)
-			self.output = np.append(self.output, newLabel)
+			self.label = np.append(self.label, newLabel)
 		self.input = np.delete(self.input, 0, 0)
-		self.output = np.delete(self.output, 0, 0)
-		# indexON = 0
-		# indexOFF = 0
-		# for i in range(self.input.shape[0]):
-		# 	if self.output[i] == -1 or self.output[i] == 0:
-		# 		self.inputON = np.delete(self.inputON, i - indexON, 0)
-		# 		indexON += 1
-		# 	elif self.output[i] == 1:
-		# 		self.inputOFF = np.delete(self.inputOFF, i- indexOFF, 0)
-		# 		indexOFF += 1
-		# self.inputOFF = self.inputOFF.T
-		# self.inputON = self.inputON.T
-	def print_excel(self, workbook, sheet, data):
+		self.label = np.delete(self.label, 0, 0)
+
+	def print_excel(self, workbook, sheet, input, output):
 		wb = Workbook()
 		sheet1 = wb.add_sheet(sheet)
-		for i in range(data.shape[0]):
-			d = np.array2string(data[i])
-			print(d)
-			sheet1.write(i, 0, d)
-		wb.save(workbook)
+		for i in range(input.shape[0]):
+			for j in range(input.shape[1]):
+				value = np.array2string(input[i][j])
+				# print(d)
+				sheet1.write(i, j, value)
+		for m in range(output.shape[0]):
+			value = np.array2string(output[m])
+			sheet1.write(m, input.shape[1] , value)
+		wb.save("data/" + workbook)
 
 
 

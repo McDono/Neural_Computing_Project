@@ -9,12 +9,12 @@ from sklearn.metrics import classification_report
 
 NBR_EPOCH_MAX = 100
 PERCEPTRON = False
-SVM = False
+SVM = True
 dataset = data.data3
-dataset.generate_circle_input(10, 4, 2)
-dataset.print_input()
-dataset.print_label()
-dataset.print_excel("data.xls", "test3", dataset.output)
+dataset.generate_circle_input(20, 4, 3)
+# dataset.print_input()
+# dataset.print_label()
+dataset.print_excel("data.xls", "test", dataset.input, dataset.label)
 
 #--- MAIN
 print("Problem D")
@@ -27,8 +27,6 @@ if PERCEPTRON:
 
 if SVM:
 	print("Support Vector Machine: ")
-	W = np.array([0.0, 0.0])
-	b = 0.0
-	W = svm.train_nn_svm(dataset.input, dataset.label, NBR_EPOCH_MAX)
+	W = svm.train_nn_svm(dataset.input, dataset.label)
 	print("W = ")
 	print(W)

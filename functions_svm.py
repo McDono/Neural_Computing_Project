@@ -23,7 +23,7 @@ def quadprog_solve_qp(P, q, G=None, h=None, A=None, b=None):
 	solution = solve_qp(qp_G, qp_a, qp_C, qp_b, meq)[0]
 	return solution
 
-def train_nn_svm(input_mat, labels, NBR_EPOCH_MAX):
+def train_nn_svm(input_mat, labels):
 	W = np.zeros(len(input_mat[0]))
 	b = 0.0
 	labels_mat = np.diag(labels)

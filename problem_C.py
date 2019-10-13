@@ -5,7 +5,7 @@ import functions_svm as svm
 import data
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score
-from sklearn.metrics import classification_report 
+from sklearn.metrics import classification_report
 
 NBR_EPOCH_MAX = 100
 PERCEPTRON = True
@@ -23,8 +23,6 @@ if PERCEPTRON:
 
 if SVM:
 	print("Support Vector Machine: ")
-	W = np.array([0.0, 0.0])
-	b = 0.0
-	W = svm.train_nn_svm(dataset.input, dataset.label, NBR_EPOCH_MAX)
+	W = svm.train_nn_svm(dataset.input, dataset.label)
 	print("W = ")
 	print(W)
