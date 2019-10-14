@@ -1,4 +1,3 @@
-
 import sys
 import numpy as np
 from sklearn.metrics import confusion_matrix
@@ -7,15 +6,24 @@ from sklearn.metrics import classification_report
 import functions_perceptron as per
 import functions_svm as svm
 import data
+import ConfusionMatrix
 
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 from sklearn.svm import SVC
+from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import train_test_split
 
 NBR_EPOCH_MAX = 2000
-PERCEPTRON = False
+PERCEPTRON = True
 SVM = True
 dataset = data.data1
+
+optimalParameter = True #determine if the optimal value for cost is used (True)
+						#or if personnalized value is used (False)
+
+#-------PARAMETERS TO MODIFY (works only if optimalParameter = False-------
+cost = 1 #optimal value: 100
 
 #--- MAIN
 print("Problem A")
@@ -25,17 +33,13 @@ if PERCEPTRON:
 	W = np.append(W, b)
 	print("W = ")
 	print(W)
-	plt.scatter(dataset.input[:,0], dataset.input[:,1], s=70, c=dataset.label, cmap=mpl.cm.Paired)
-	pad = 0.25
-	x_min, x_max = dataset.input[:, 0].min()-pad, dataset.input[:, 0].max()+pad
-	x = np.linspace(x_min,x_max,100)
-	y = -W[0]/W[1]*x-b/W[1]
-	plt.plot(x, y, '-r')
-	plt.xlabel('X1')
-	plt.ylabel('X2')
-	plt.grid()
-	plt.show()
+	per.plot_perceptron(dataset, W)
 
 if SVM:
-	svc = svm.run_svm(dataset, cost=1, kernel="linear") #cost value doesn't have any impact here
-	svm.plot_svc(svc, dataset.input,dataset.label)
+	if (optimalParameter):
+		svc = svm.run_svm_linear(dataset.input, dataset.label , kernel="linear")
+	else:
+		svc = svm.run_svm_linear(dataset.input, dataset.label , kernel="linear", cost=1)
+	svm.plot_svc(svc,dataset.input,dataset.label)
+	cm = ConfusionMatrix.ConfusionMatrix(svc, dataset.input,dataset.label)
+	cm.print_matrix()

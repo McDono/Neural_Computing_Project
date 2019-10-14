@@ -3,7 +3,11 @@ import math
 import sys
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score
-from sklearn.metrics import classification_report 
+from sklearn.metrics import classification_report
+
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+from sklearn.svm import SVC
 
 def run_neuron(input, target, W, b, transferFunction):
 	n = np.dot(W, input) + b
@@ -109,4 +113,16 @@ def hardlims(input):
 		return -1.0
 
 def sigmoid(n):
-  return 1 / (1 + math.exp(-n))
+ 	return 1 / (1 + math.exp(-n))
+
+def plot_perceptron(dataset, W):
+	plt.scatter(dataset.input[:,0], dataset.input[:,1], s=70, c=dataset.label, cmap=mpl.cm.Paired)
+	pad = 0.25
+	x_min, x_max = dataset.input[:, 0].min()-pad, dataset.input[:, 0].max()+pad
+	x = np.linspace(x_min,x_max,100)
+	y = -W[0]/W[1]*x-W[-1]/W[1]
+	plt.plot(x, y, '-r')
+	plt.xlabel('X1')
+	plt.ylabel('X2')
+	plt.grid()
+	plt.show()
