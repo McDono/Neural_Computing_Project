@@ -32,7 +32,6 @@ X = np.random.randn(200,2)
 X[:100] = X[:100] +2
 X[101:150] = X[101:150] -2
 y = np.concatenate([np.repeat(-1, 150), np.repeat(1,50)])
-9
 X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.5, random_state=2)
 # plt.scatter(X[:,0], X[:,1], s=70, c=y, cmap=mpl.cm.Paired)
 # plt.xlabel('X1')

@@ -11,6 +11,7 @@ import ConfusionMatrix
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 from sklearn.svm import SVC
+from sklearn.model_selection import GridSearchCV
 
 
 NBR_EPOCH_MAX = 2000
