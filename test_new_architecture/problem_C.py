@@ -6,7 +6,7 @@ from sklearn.metrics import classification_report
 import functions_perceptron as per
 import functions_svm as svm
 import data
-import plot
+import ConfusionMatrix
 
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -25,9 +25,11 @@ if PERCEPTRON:
 	W = np.append(W, b)
 	print("W = ")
 	print(W)
-	plot.plot_perceptron(dataset, W)
+	per.plot_perceptron(dataset, W)
 
 if SVM:
-	svc = SVC(C=1, kernel='linear')
+	svc = SVC(C=1e5, kernel='linear') #see optimized C
 	svc.fit(dataset.input, dataset.label)
 	svm.plot_svc(svc, dataset.input,dataset.label)
+	cm = ConfusionMatrix.ConfusionMatrix(svc, dataset)
+	cm.print_matrix()
