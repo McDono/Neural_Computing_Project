@@ -12,18 +12,11 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import train_test_split
 
 NBR_EPOCH_MAX = 2000
 PERCEPTRON = True
 SVM = True
 dataset = data.data1
-
-optimalParameter = True #determine if the optimal value for cost is used (True)
-						#or if personnalized value is used (False)
-
-#-------PARAMETERS TO MODIFY (works only if optimalParameter = False-------
-cost = 1 #optimal value: 100
 
 #--- MAIN
 print("Problem A")
@@ -36,11 +29,13 @@ if PERCEPTRON:
 	per.plot_perceptron(dataset, W)
 
 if SVM:
-	if (optimalParameter):
-		svc = svm.run_svm_linear(dataset.input, dataset.label , kernel="linear")
-	else:
-		svc = svm.run_svm_linear(dataset.input, dataset.label , kernel="linear", cost=1)
-	svm.plot_svc(svc,dataset.input,dataset.label)
-	cm = ConfusionMatrix.ConfusionMatrix(svc, dataset.input,dataset.label)
-	print("Support Vector Machine: ")
+	# tuned_parameters = [{'C': [0.001, 0.01, 0.1, 1, 5, 10, 100]}]
+	# clf = GridSearchCV(SVC(kernel='linear'), tuned_parameters, cv=5, scoring='accuracy')
+	# clf.fit(dataset.input, dataset.label)
+	# print("Best param: ")
+	# print(clf.best_params_)
+
+	svc = svm.run_svm(dataset, cost=1, kernel="linear") #cost value doesn't have any impact here
+	svm.plot_svc(svc, dataset.input,dataset.label)
+	cm = ConfusionMatrix.ConfusionMatrix(svc, dataset)
 	cm.print_matrix()
