@@ -120,6 +120,7 @@ def plot_perceptron(dataset, W):
 	pad = 0.25
 	x_min, x_max = dataset.input[:, 0].min()-pad, dataset.input[:, 0].max()+pad
 	x = np.linspace(x_min,x_max,100)
+	# x = np.linspace(0.7,2,100) #better window for problem C
 	y = -W[0]/W[1]*x-W[-1]/W[1]
 	plt.plot(x, y, '-r')
 	plt.xlabel('X1')
