@@ -14,7 +14,7 @@ from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV
 
 NBR_EPOCH_MAX = 2000
-PERCEPTRON = False
+PERCEPTRON = True
 SVM = True
 dataset = data.data1
 
