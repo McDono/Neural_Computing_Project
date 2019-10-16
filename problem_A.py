@@ -42,4 +42,5 @@ if SVM:
 		svc = svm.run_svm_linear(dataset.input, dataset.label , kernel="linear", cost=1)
 	svm.plot_svc(svc,dataset.input,dataset.label)
 	cm = ConfusionMatrix.ConfusionMatrix(svc, dataset.input,dataset.label)
+	print("Support Vector Machine: ")
 	cm.print_matrix()

@@ -23,12 +23,12 @@ dataset.generate_circle_input(NBR_POINT, 4, 3)
 # dataset.print_input()
 # dataset.print_label()
 
-optimalParameter = False #determine if the optimal value for gamma and cost are used (True)
+optimalParameter = True #determine if the optimal value for gamma and cost are used (True)
 						#or if personnalized values are used (False)
 
 #-------PARAMETERS TO MODIFY (works only if optimalParameter = False-------
-cost = 0.1 #optimal value: 10
-gamma = 100 #optimal value: 0.5
+cost = 10 #optimal value: 10
+gamma = 0.5 #optimal value: 0.5
 
 #--- MAIN
 print("Problem D")
@@ -42,4 +42,5 @@ if SVM:
 	svm.plot_svc(svc, X_test, y_test)
 
 	cm = ConfusionMatrix.ConfusionMatrix(svc, X_test, y_test)
+	print("Support Vector Machine: ")
 	cm.print_matrix()
