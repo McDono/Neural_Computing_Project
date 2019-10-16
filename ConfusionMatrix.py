@@ -2,9 +2,9 @@ from sklearn.metrics import confusion_matrix
 from sklearn.svm import SVC
 
 class ConfusionMatrix(object):
-	def __init__(self, svc, dataset):
-		out_pred = svc.predict(dataset.input)
-		self.matrix = confusion_matrix(dataset.label, out_pred)
+	def __init__(self, svc, X_test, y_test):
+		out_pred = svc.predict(X_test)
+		self.matrix = confusion_matrix(y_test, out_pred)
 		# self.matrix = [[50, 10], [5, 100]]
 		self.TP = self.matrix[0][0]
 		self.FN = self.matrix[0][1]

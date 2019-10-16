@@ -9,6 +9,34 @@ from sklearn.model_selection import GridSearchCV
 
 DEBUG = True
 
+def run_svm_nonlinear(X_train, y_train, kernel, cost=None, gamma=None):
+	tuned_parameters = [{'C': [0.01, 0.1, 1, 10, 100],
+	'gamma': [0.5, 1,2,3,4]}]
+	clf = GridSearchCV(SVC(kernel), tuned_parameters, cv=10, scoring='accuracy')
+	clf.fit(X_train, y_train)
+	print("Best param: " + str(clf.best_params_))
+	print("Best estimator: " + str(clf.best_estimator_))
+	if (cost != None and gamma != None):
+		svc = SVC(C=cost, kernel=kernel, gamma=gamma)
+	else:
+		svc = clf.best_estimator_
+	svc.fit(X_train, y_train)
+	return svc
+
+def run_svm_linear(X_train, y_train, kernel, cost=None):
+	tuned_parameters = [{'C': [0.001, 0.01, 0.1, 1, 5, 10, 100]}]
+	clf = GridSearchCV(SVC(kernel), tuned_parameters, cv=2, scoring='accuracy')
+	clf.fit(X_train, y_train)
+	print("Best param: " + str(clf.best_params_))
+	print("Best estimator: " + str(clf.best_estimator_))
+	if (cost!=None):
+		svc = SVC(C=cost, kernel=kernel)
+	else:
+		svc = clf.best_estimator_
+	svc.fit(X_train, y_train)
+	return svc
+
+
 def plot_svc(svc, X, y, h=0.02, pad=0.25):
 	x_min, x_max = X[:, 0].min()-pad, X[:, 0].max()+pad
 	y_min, y_max = X[:, 1].min()-pad, X[:, 1].max()+pad
@@ -26,56 +54,3 @@ def plot_svc(svc, X, y, h=0.02, pad=0.25):
 	plt.ylabel('X2')
 	plt.show()
 	print('Number of support vectors: ', svc.support_.size)
-
-def quadprog_solve_qp(P, q, G=None, h=None, A=None, b=None):
-	qp_G = P
-	qp_a = -q
-	if A is not None:
-		if A.ndim == 1:
-			A = A.reshape((1, A.shape[0]))
-		if G is None:
-			qp_C = -A.T
-			qp_b = -b
-		else:
-			qp_C = -np.vstack([A, G]).T
-			qp_b = -np.hstack([b, h])
-		meq = A.shape[0]
-	else:  # no equality constraint
-		qp_C = -G.T if G is not None else None
-		qp_b = -h if h is not None else None
-		meq = 0
-	solution = solve_qp(qp_G, qp_a, qp_C, qp_b, meq)[0]
-	return solution
-
-def train_nn_svm(input_mat, labels):
-	W = np.zeros(len(input_mat[0]))
-	b = 0.0
-	labels_mat = np.diag(labels)
-	ones_mat = np.ones((len(input_mat), 1))
-	input_augmented_mat = np.concatenate((input_mat, ones_mat), axis=1)
-	H = np.identity(len(input_mat[0]) + 1)
-	f = np.zeros(len(input_mat[0])+1)
-	# f = np.zeros((len(input_mat[0])+1, 1))
-	A = - np.dot(labels_mat, input_augmented_mat)
-	c = - np.ones(len(input_mat))
-	W = quadprog_solve_qp(H, f, A, c)
-	W = np.around(W, 4)
-	if DEBUG:
-		print("Y = ")
-		print(labels_mat)
-		print("X = ")
-		print(input_mat)
-		print("ONES = ")
-		print(ones_mat)
-		print("X1 = ")
-		print(input_augmented_mat)
-		print("H = ")
-		print(H)
-		print("f = ")
-		print(f)
-		print("A = ")
-		print(A)
-		print("C = ")
-		print(c)
-
-	return W
